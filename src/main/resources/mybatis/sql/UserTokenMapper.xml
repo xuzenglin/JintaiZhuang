@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.lanfeng.data.mapper.UserTokenMapper">
+    <resultMap id="userToken" type="UserToken">
+        <id property="userId" column="user_id"/>
+        <result property="token" column="token"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id,token,update_time
+    </sql>
+
+
+    <insert id="insert" parameterType="UserToken">
+        INSERT INTO t_user_token (user_id, token, update_time) VALUES (#{userId}, #{token}, now())
+    </insert>
+
+    <update id="update">
+        UPDATE t_user_token SET token=#{token}, update_time=now() WHERE user_id=#{userId}
+    </update>
+
+    <select id="getByUserId" resultMap="userToken" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        t_user_token
+        WHERE
+        user_id = #{userId}
+    </select>
+
+
+    <delete id="deleteByUserId" parameterType="java.lang.Long">
+        DELETE FROM
+        t_user_token
+        WHERE
+        user_id = #{userId}
+    </delete>
+
+</mapper>

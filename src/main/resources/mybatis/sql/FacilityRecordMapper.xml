@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.lanfeng.data.mapper.FacilityRecordMapper">
+    <resultMap id="facilityRecord" type="FacilityRecord">
+        <id property="id" column="id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="accuracy" column="accuracy"/>
+        <result property="course" column="course"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="mode" column="mode"/>
+        <result property="speed" column="speed"/>
+        <result property="uploadCode" column="upload_code"/>
+        <result property="uploadTime" column="upload_time"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,device_id,accuracy,course,longitude,latitude,mode,speed,upload_code,upload_time
+    </sql>
+
+    <insert id="insert" parameterType="FacilityRecord" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        t_facility_record(id,device_id, accuracy, course, longitude, latitude, mode,speed,upload_time)
+        VALUE
+        (#{id},#{deviceId}, #{accuracy}, #{course}, #{longitude}, #{latitude},#{mode},#{speed},#{uploadTime})
+    </insert>
+
+    <select id="getByDeviceId" resultMap="facilityRecord">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM t_facility_record
+        WHERE device_id=#{deviceId}
+    </select>
+
+
+    <select id="getLastFacilityRecordByDeviceId" resultMap="facilityRecord">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM t_facility_record
+        WHERE device_id=#{deviceId}
+        ORDER BY upload_time DESC
+        limit 1
+    </select>
+
+
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chris.lanfeng.data.mapper.FacilityMapper">
+    <resultMap id="facility" type="Facility">
+        <id property="id" column="id"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="plateNumber" column="plate_number"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,device_id,plate_number,create_time
+    </sql>
+
+    <insert id="insert" parameterType="Facility" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        t_facility(id,device_id, plate_number, create_time)
+        VALUE
+        (#{id},#{deviceId}, #{plateNumber},#{createTime})
+    </insert>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from t_facility
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <select id="getByDeviceId" resultMap="facility">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM t_facility
+        WHERE device_id=#{deviceId}
+    </select>
+
+    <select id="getByPlateNumber" resultMap="facility">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM t_facility
+        WHERE plate_number=#{plateNumber}
+    </select>
+
+    <select id="findAll" resultMap="facility">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM t_facility
+    </select>
+
+</mapper>
